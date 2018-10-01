@@ -1,19 +1,18 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
+/.idea/
+.env
+phpunit.xml.dist
 
 # Email spool folder
 /app/spool/*
 
-# Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+# Cache, session files and logs
+/var/
+
+# NPM files in public directory
+/public/node_modules
+/public/npm-debug.log
+
+/tests
 
 # Parameters
 /app/config/parameters.yml
