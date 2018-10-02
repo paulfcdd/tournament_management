@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="countries")
  * @ORM\Entity()
  */
-class Country
+class Country extends AbstractEntity
 {
     /**
      * @var integer
