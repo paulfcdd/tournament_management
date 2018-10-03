@@ -1,1 +1,19 @@
 {% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">{% block list_label %}{% endblock %}</h4>
+                        <p class="card-category">List of all available associations </p>
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        {% block table_body %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -25,6 +25,10 @@ class Country extends AbstractEntity
     private $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Association", inversedBy="id")
+     */
+    private $association;
+    /**
      * @return int
      */
     public function getId(): int
@@ -35,7 +39,7 @@ class Country extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -47,6 +51,24 @@ class Country extends AbstractEntity
     public function setName(string $name): Country
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAssociation()
+    {
+        return $this->association;
+    }
+
+    /**
+     * @param mixed $association
+     * @return Country
+     */
+    public function setAssociation($association)
+    {
+        $this->association = $association;
         return $this;
     }
 }
