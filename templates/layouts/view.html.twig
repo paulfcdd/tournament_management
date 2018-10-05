@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">{% block country_name %}{% endblock %}</h4>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="pull-left">Leagues</h5>
+                            <a class="pull-right" href="{% block url_to_form %}{% endblock %}">Add league</a>
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr><th>ID</th>
+                                    <th>Name</th>
+                                    <th>League rank</th>
+                                    <th>Max num of clubs</th>
+                                    <th>Clubs</th>
+                                </tr></thead>
+                                <tbody>
+                                {% block leagues_table_body %}{% endblock %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

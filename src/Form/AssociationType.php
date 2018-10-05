@@ -26,12 +26,6 @@ class AssociationType extends AbstractType
                     'class' => 'btn btn-primary btn-fill'
                 ]
             ]);
-//            ->add('country', EntityType::class, [
-//                'expanded' => false,
-//                'multiple' => false,
-//                'data_class' => Country::class,
-//                'choice_label' => 'name'
-//            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

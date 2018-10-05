@@ -20,10 +20,9 @@ interface SectionInterface
 
     /**
      * @param Request $request
-     * @param AbstractEntity $entity
+     * @param AbstractEntity $object
      * @return mixed
      */
-    public function saveDataAction(Request $request,
-                                   AbstractEntity $entity);
+    public function saveDataAction(Request $request, AbstractEntity $object);
 
 }

@@ -35,7 +35,7 @@ class Association extends AbstractEntity
 
     /**
      * @var string
-     * @ORM\Column()
+     * @ORM\Column(unique=true)
      */
     private $name;
 

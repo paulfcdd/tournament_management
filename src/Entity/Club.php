@@ -2,4 +2,7 @@
 
 namespace App\Entity;
 
-class AbstractEntity{}
+class Club
+{
+
+}

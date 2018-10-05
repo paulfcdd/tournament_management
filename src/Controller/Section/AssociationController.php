@@ -19,10 +19,8 @@ class AssociationController extends SectionAbstractController
      */
     public function renderListPageAction()
     {
-        $associations = $this->getDoctrine()->getRepository(Association::class)->findAll();
-
         return parent::renderPage('association', 'list', [
-            'associations' => $associations,
+            'associations' => parent::getAllFromDb(Association::class),
         ]);
     }
 
@@ -58,6 +56,7 @@ class AssociationController extends SectionAbstractController
     /**
      * @Route("/association/save-data/{id}", name="app.association.save-data", defaults={"id"=null})
      * @Method("POST")
+     * @ParamConverter("id", class="App:Association")
      * @param Request $request
      * @param AbstractEntity|null $id
      * @return mixed|string|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -66,6 +65,6 @@ class AssociationController extends SectionAbstractController
     {
         $formType = AssociationType::class;
 
-        return parent::saveDataAndRedirect($formType, $request, 'app.association.manage', $id);
+        return parent::saveDataAndRedirect($formType, $request, 'app.association', $id);
     }
 }

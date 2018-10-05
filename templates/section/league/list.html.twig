@@ -3,39 +3,40 @@
 {% block _navbar_controls %}
     <ul class="nav navbar-nav mr-auto">
         <li class="nav-item">
-            <a href="{{ path('app.country.manage') }}"
+            <a href="{{ path('app.league.manage') }}"
                class="btn btn-info btn-fill">
-                Add new country
+                Add new league
             </a>
         </li>
     </ul>
 {% endblock %}
 
-{% block list_label %}List of countries{% endblock %}
+{% block list_label %}List of leagues{% endblock %}
 
 {% block table_body %}
     <div class="card-body table-full-width table-responsive">
+
         <table class="table table-hover table-striped">
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Name</th>
                 <th>Country</th>
                 <th>Association</th>
-                <th># of leagues</th>
-                <th># of clubs</th>
+                <th>League rank</th>
+                <th>Max club #</th>
                 <th>Manage</th>
             </tr>
             </thead>
             <tbody>
-            {% for country in countries %}
+            {% for league in leagues %}
                 <tr>
-                    <td>{{ country.id }}</td>
-                    <td>
-                        <a href="{{ path('app.country.view', {'country': country.id}) }}"> {{ country.name }}</a>
-                    </td>
-                    <td>{{ country.association.name }}</td>
-                    <td>{{ country.leagues | length }}</td>
-                    <td></td>
+                    <td>{{ league.id }}</td>
+                    <td>{{ league.name }}</td>
+                    <td>{{ league.country.name }}</td>
+                    <td>{{ league.country.association.name }}</td>
+                    <td>{{ league.leagueRanking }}</td>
+                    <td>{{ league.numberOfClubs }}</td>
                     <td></td>
                 </tr>
             {% endfor %}
