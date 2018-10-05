@@ -4,11 +4,11 @@ namespace App\Controller\Section;
 
 use App\Controller\SectionAbstractController;
 use App\Entity\AbstractEntity;
+use App\Entity\Club;
 use App\Entity\Country;
 use App\Entity\League;
 use App\Form\CountryType;
 use App\Form\LeagueType;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +45,7 @@ class CountriesController extends SectionAbstractController
 
         return parent::renderPage('country', 'manage', [
             'formLabel' => $formLabel,
-            'form' => parent::getForm($formType, $object, $formOptions)
+            'form' => parent::getFormInterface($formType, $object, $formOptions)->createView()
 
         ]);
     }
@@ -60,12 +60,17 @@ class CountriesController extends SectionAbstractController
      */
     public function renderViewPageAction(Country $country)
     {
+        $leagues = parent::getByParamsFromDb(League::class, ['country' => $country->getId()], ['leagueRanking' => 'ASC']);
+        $clubs = parent::getByParamsFromDb(Club::class, ['league' => $leagues]);
+        $formActionUrl = $this->generateUrl('app.country.add_league', [
+            'country' => $country->getId()
+        ]);
+
         return parent::renderPage('country', 'view', [
             'country' => $country,
-            'leagues' => parent::getByParamsFromDb(League::class, ['country' => $country->getId()], ['leagueRanking' => 'ASC']),
-            'urlToForm' => $this->generateUrl('app.country.add_league', [
-                'country' => $country->getId()
-            ])
+            'leagues' => $leagues,
+            'clubs' => $clubs,
+            'urlToForm' => $formActionUrl,
         ]);
     }
 
@@ -79,26 +84,36 @@ class CountriesController extends SectionAbstractController
      */
     public function addLeagueAction(Country $country, Request $request)
     {
-        $form = parent::getForm(LeagueType::class, null, [
-            'show_country_selector' => false,
-        ])->handleRequest($request);
+        $formType = LeagueType::class;
+        $redirectParameters = [
+            'country' => $country->getId(),
+            ];
+
+        $form = parent::getFormInterface($formType, null, ['show_country_selector' => false])
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var League $formData */
-            $formData = $form->getData();
-            $formData->setCountry($country);
-            $this->em->persist($formData);
-            $this->em->flush();
 
-            return $this->redirectToRoute('app.country.view', [
-                'country' => $country->getId()
-            ]);
+            $form->getData()->setCountry($country);
+
+            return parent::saveDataAndRedirect($formType, $request, 'app.country.view', $form->getData(), ['show_country_selector' => false,], $redirectParameters);
         }
 
         return parent::renderPage('league', 'manage', [
             'formLabel' => sprintf('Add new league in %s', $country->getName()),
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/country/add-club/{country}", name="app.country.add_club")
+     *
+     * @param \App\Entity\Country $country
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function addClubAction(Country $country, Request $request)
+    {
+
     }
 
     /**

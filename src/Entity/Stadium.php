@@ -6,11 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="leagues")
+ * @ORM\Table(name="stadiums")
  * @ORM\Entity()
  */
-class League extends AbstractEntity
+class Stadium extends AbstractEntity
 {
+
     /**
      * @var string
      * @ORM\Column()
@@ -18,25 +19,25 @@ class League extends AbstractEntity
     private $name;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column()
      */
-    private $leagueRanking;
+    private $location;
 
     /**
      * @var integer
      * @ORM\Column(type="integer")
      */
-    private $numberOfClubs;
+    private $capacity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="leagues")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
+     * @var integer
+     * @ORM\Column(type="integer")
      */
-    private $country;
+    private $builded;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Club", mappedBy="league")
+     * @ORM\OneToMany(targetEntity="App\Entity\Club", mappedBy="stadium")
      */
     private $clubs;
 
@@ -48,74 +49,65 @@ class League extends AbstractEntity
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
-     * @return League
      */
-    public function setName(string $name): League
+    public function setName(string $name): void
     {
         $this->name = $name;
-        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation(string $location): void
+    {
+        $this->location = $location;
     }
 
     /**
      * @return int
      */
-    public function getLeagueRanking(): ?int
+    public function getCapacity(): int
     {
-        return $this->leagueRanking;
+        return $this->capacity;
     }
 
     /**
-     * @param int $leagueRanking
-     * @return League
+     * @param int $capacity
      */
-    public function setLeagueRanking(int $leagueRanking): League
+    public function setCapacity(int $capacity): void
     {
-        $this->leagueRanking = $leagueRanking;
-        return $this;
+        $this->capacity = $capacity;
     }
 
     /**
      * @return int
      */
-    public function getNumberOfClubs(): ?int
+    public function getBuilded(): int
     {
-        return $this->numberOfClubs;
+        return $this->builded;
     }
 
     /**
-     * @param int $numberOfClubs
-     * @return League
+     * @param int $builded
      */
-    public function setNumberOfClubs(int $numberOfClubs): League
+    public function setBuilded(int $builded): void
     {
-        $this->numberOfClubs = $numberOfClubs;
-        return $this;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * @param mixed $country
-     * @return League
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-        return $this;
+        $this->builded = $builded;
     }
 
     /**
@@ -151,5 +143,4 @@ class League extends AbstractEntity
     {
         return $this->clubs;
     }
-
 }

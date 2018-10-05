@@ -12,14 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Country extends AbstractEntity
 {
     /**
-     * @var integer
-     * @ORM\Column(type="integer", length=20)
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var string
      * @ORM\Column(unique=true)
      */
@@ -39,14 +31,6 @@ class Country extends AbstractEntity
     public function __construct()
     {
         $this->leagues = new ArrayCollection();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**

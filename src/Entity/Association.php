@@ -21,14 +21,6 @@ class Association extends AbstractEntity
 
     /**
      * @var int
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
      * @ORM\Column(type="integer")
      */
     private $continent;
@@ -47,14 +39,6 @@ class Association extends AbstractEntity
     public function __construct()
     {
         $this->countries = new ArrayCollection();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**

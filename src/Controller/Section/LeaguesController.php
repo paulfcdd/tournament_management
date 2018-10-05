@@ -43,7 +43,7 @@ class LeaguesController extends SectionAbstractController
         ];
 
         return parent::renderPage('league', 'manage', [
-            'form' => parent::getForm($formType, $object, $formOptions),
+            'form' => parent::getFormInterface($formType, $object, $formOptions)->createView(),
             'formLabel' => $formLabel,
         ]);
     }
@@ -58,6 +58,6 @@ class LeaguesController extends SectionAbstractController
      */
     public function saveDataAction(Request $request, AbstractEntity $object = null)
     {
-        return parent::saveDataAndRedirect(LeagueType::class, $request, 'app.league', $object);
+        return parent::saveDataAndRedirect(LeagueType::class, $request, 'app.league', $object, ['show_country_selector' => true]);
     }
 }

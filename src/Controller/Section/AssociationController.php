@@ -49,7 +49,7 @@ class AssociationController extends SectionAbstractController
 
         return parent::renderPage('association', 'manage', [
             'formLabel' => $formLabel,
-            'form' => parent::getForm($formType, $formData, $formOptions)
+            'form' => parent::getFormInterface($formType, $formData, $formOptions)->createView()
         ]);
     }
 

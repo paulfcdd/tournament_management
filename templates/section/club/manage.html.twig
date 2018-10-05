@@ -1,0 +1,9 @@
+{% extends 'layouts/manage.html.twig' %}
+
+{% block form_label %}{{ formLabel }}{% endblock %}
+
+{% block form_container %}
+    {{ form_start(form) }}
+
+    {{ form_end(form) }}
+{% endblock %}

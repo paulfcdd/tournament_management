@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\AbstractEntity;
-use App\Entity\League;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -40,20 +39,18 @@ abstract class SectionAbstractController extends Controller implements SectionIn
     }
 
     /**
-     * If $request is not set ($request = null) them method return form view
-     * If $request is set, then method handle request
      *
      * @param string $formType
      * @param \App\Entity\AbstractEntity|null $data
      * @param array $options
-     * @param \Symfony\Component\HttpFoundation\Request|null $request
+     *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function getForm(string $formType, AbstractEntity $data = null, array $options = [], Request $request = null)
+    public function getFormInterface(string $formType, AbstractEntity $data = null, array $options = [])
     {
-        $form = $this->createForm($formType, $data, $options);
+        $formInstance = $this->createForm($formType, $data, $options);
 
-        return $request ? $form->handleRequest($request) : $form;
+        return $formInstance;
     }
 
     /**
@@ -62,20 +59,30 @@ abstract class SectionAbstractController extends Controller implements SectionIn
      * @param string $routeName
      * @param \App\Entity\AbstractEntity|null $formData
      * @param array $options
+     * @param array $routeParameters
      *
      * @return string|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function saveDataAndRedirect(string $formType, Request $request, string $routeName, AbstractEntity $formData = null, array $options = [])
+    public function saveDataAndRedirect(
+        string $formType,
+        Request $request,
+        string $routeName,
+        AbstractEntity $formData = null,
+        array $options = [],
+        array $routeParameters = []
+    )
     {
         /** @var Form $form */
-        $form = $this->getForm($formType, $formData, $options, $request);
-        $formData = $form->getData();
+        $form = $this->getFormInterface($formType, $formData, $options)->handleRequest($request);
 
         if ($form->isValid()) {
+
+            $formData = $form->getData();
+
             try {
                 $this->em->persist($formData);
                 $this->em->flush();
-                return $this->redirectToRoute($routeName, ['id'=>$formData->getId()]);
+                return $this->redirectToRoute($routeName, $routeParameters);
             } catch (\Exception $exception) {
                 return $exception->getMessage();
             }
